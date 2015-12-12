@@ -17,7 +17,6 @@ if ($_SERVER['HTTP_HOST'] == 'ryapp') {
     ini_set('display_errors', false);
 }
 
-// FIXME: import dressing room (or api) url
 use Ryzom\Common\EGender;
 use Ryzom\Common\EVisualSlot;
 use Ryzom\Common\TPeople;
