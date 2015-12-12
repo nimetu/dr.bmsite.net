@@ -1,4 +1,14 @@
 <?php
+
+if (isset($_GET['src']) && $_GET['src'] == 'show') {
+	echo "<b>Last modified :</b> ".date("Y-m-d H:i:s", filemtime(__FILE__))." UTC<br>\n";
+	echo "<div style=\"font-size: 12px;\">\n";
+	highlight_string(file_get_contents(__FILE__));
+	print "</div>\n";
+	exit;
+}
+
+
 if ($_SERVER['HTTP_HOST'] == 'ryapp') {
     error_reporting(E_ALL);
     ini_set('display_errors', true);
