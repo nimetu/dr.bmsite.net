@@ -126,6 +126,10 @@ $vpx .= strtr($tpl2, ['{$name}' => 'VPB', '{$vpx}' => $char->getVpb(true)]);
 $vpx .= strtr($tpl2, ['{$name}' => 'VPC', '{$vpx}' => $char->getVpc(true)]);
 $vpx .= '</ul>';
 
+//$vp = $char->getVpa(true);
+//$vp = preg_replace('~(..)(?!$)\.?~', '\1:', $vp);
+//echo $vp;
+
 //************************************************************************************
 $langArray = [
     'en' => __('LanguageName.uxt', 'en'),
