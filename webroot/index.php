@@ -141,6 +141,12 @@ $langTable .= '</tr></table>';
 
 
 $tpl = '
+<html>
+<head>
+    <title>api.bmsite.net - Character Creator</title>
+</head>
+<body>
+
 <form method="POST" action="?">
 <table>
 <tr>
@@ -149,6 +155,9 @@ $tpl = '
 </table>
 {$lang}
 </form>
+
+</body>
+</html>
 ';
 
 echo strtr(
