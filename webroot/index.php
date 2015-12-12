@@ -6,8 +6,8 @@ if ($_SERVER['HTTP_HOST'] == 'ryapp') {
     error_reporting(0);
     ini_set('display_errors', false);
 }
-// FIXME: import dressing room (or api) url
 
+// FIXME: import dressing room (or api) url
 use Ryzom\Common\EGender;
 use Ryzom\Common\EVisualSlot;
 use Ryzom\Common\TPeople;
@@ -23,52 +23,50 @@ function __($sheet, $lang = LANG)
     return _h(ryzom_translate($sheet, $lang));
 }
 
-header('Content-Type: text/html; charset=utf-8');
-
 require __DIR__ . '/../vendor/autoload.php';
 
 //
 // form
 //
 $form = [
-    'lang' => is($_POST['lang'], 'en'),
-    'zoom' => is($_POST['zoom'], 'body'),
-    'dir' => (int) is($_POST['dir'], 0),
+    'language' => is($_REQUEST['language'], 'en'),
+    'zoom' => is($_REQUEST['zoom'], 'body'),
+    'dir' => (int) is($_REQUEST['dir'], 0),
     //
-    'age' => clamp((int) is($_POST['age'], 0), 0, 2),
-    'race' => clamp((int) is($_POST['race'], 0), 0, 3),
-    'gender' => clamp((int) is($_POST['gender'], 0), 0, 1),
-    'eyes' => clamp((int) is($_POST['eyes'], 0), 0, 6),
-    'tattoo' => (int) is($_POST['tattoo'], 0),
-    'haircut' => (int) is($_POST['haircut'], 0),
-    'haircolor' => (int) is($_POST['haircolor'], 0),
+    'age' => clamp((int) is($_REQUEST['age'], 0), 0, 2),
+    'race' => clamp((int) is($_REQUEST['race'], 0), 0, 3),
+    'gender' => clamp((int) is($_REQUEST['gender'], 0), 0, 1),
+    'eyes' => clamp((int) is($_REQUEST['eyes'], 0), 0, 6),
+    'tattoo' => (int) is($_REQUEST['tattoo'], 0),
+    'haircut' => (int) is($_REQUEST['haircut'], 0),
+    'haircolor' => (int) is($_REQUEST['haircolor'], 0),
     //
-    'chest' => ['item' => (int) is($_POST['slot1']['item'], 0), 'color' => (int) is($_POST['slot1']['color'], 0)],
-    'head' => ['item' => (int) is($_POST['slot3']['item'], 0), 'color' => (int) is($_POST['slot3']['color'], 0)],
-    'legs' => ['item' => (int) is($_POST['slot2']['item'], 0), 'color' => (int) is($_POST['slot2']['color'], 0)],
-    'arms' => ['item' => (int) is($_POST['slot4']['item'], 0), 'color' => (int) is($_POST['slot4']['color'], 0)],
-    'hands' => ['item' => (int) is($_POST['slot6']['item'], 0), 'color' => (int) is($_POST['slot6']['color'], 0)],
-    'feet' => ['item' => (int) is($_POST['slot7']['item'], 0), 'color' => (int) is($_POST['slot7']['color'], 0)],
+    'chest' => ['item' => (int) is($_REQUEST['slot1']['item'], 0), 'color' => (int) is($_REQUEST['slot1']['color'], 0)],
+    'head' => ['item' => (int) is($_REQUEST['slot3']['item'], 0), 'color' => (int) is($_REQUEST['slot3']['color'], 0)],
+    'legs' => ['item' => (int) is($_REQUEST['slot2']['item'], 0), 'color' => (int) is($_REQUEST['slot2']['color'], 0)],
+    'arms' => ['item' => (int) is($_REQUEST['slot4']['item'], 0), 'color' => (int) is($_REQUEST['slot4']['color'], 0)],
+    'hands' => ['item' => (int) is($_REQUEST['slot6']['item'], 0), 'color' => (int) is($_REQUEST['slot6']['color'], 0)],
+    'feet' => ['item' => (int) is($_REQUEST['slot7']['item'], 0), 'color' => (int) is($_REQUEST['slot7']['color'], 0)],
     //
-    'handr' => (int) is($_POST['slot8'], 0),
-    'handl' => (int) is($_POST['slot9'], 0),
+    'handr' => (int) is($_REQUEST['slot8'], 0),
+    'handl' => (int) is($_REQUEST['slot9'], 0),
     //
     'gabarit' => [
-        (int) is($_POST['gabarit'][0], 7),// char height
-        (int) is($_POST['gabarit'][1], 7),// torso width
-        (int) is($_POST['gabarit'][2], 7),// arms width
-        (int) is($_POST['gabarit'][3], 7),// legs width
-        (int) is($_POST['gabarit'][4], 7),// breast size
+        (int) is($_REQUEST['gabarit'][0], 7),// char height
+        (int) is($_REQUEST['gabarit'][1], 7),// torso width
+        (int) is($_REQUEST['gabarit'][2], 7),// arms width
+        (int) is($_REQUEST['gabarit'][3], 7),// legs width
+        (int) is($_REQUEST['gabarit'][4], 7),// breast size
     ],
     'morph' => [
-        (int) is($_POST['morph'][0], 3),// morph target 1, uiFace1Fy, uiFace1Ma, uiFace1Tr, uiFace1Zo
-        (int) is($_POST['morph'][1], 3),// morph target 2
-        (int) is($_POST['morph'][2], 3),// morph target 3
-        (int) is($_POST['morph'][3], 3),// morph target 4
-        (int) is($_POST['morph'][4], 3),// morph target 5
-        (int) is($_POST['morph'][5], 3),// morph target 6
-        (int) is($_POST['morph'][6], 3),// morph target 7
-        (int) is($_POST['morph'][7], 3),// morph target 8
+        (int) is($_REQUEST['morph'][0], 3),// morph target 1, uiFace1Fy, uiFace1Ma, uiFace1Tr, uiFace1Zo
+        (int) is($_REQUEST['morph'][1], 3),// morph target 2
+        (int) is($_REQUEST['morph'][2], 3),// morph target 3
+        (int) is($_REQUEST['morph'][3], 3),// morph target 4
+        (int) is($_REQUEST['morph'][4], 3),// morph target 5
+        (int) is($_REQUEST['morph'][5], 3),// morph target 6
+        (int) is($_REQUEST['morph'][6], 3),// morph target 7
+        (int) is($_REQUEST['morph'][7], 3),// morph target 8
     ]
 ];
 
@@ -76,7 +74,8 @@ if (!in_array($form['zoom'], ['body', 'portrait'])) {
     $form['zoom'] = 'body';
 }
 
-define('LANG', $form['lang']);
+$form['language'] = (in_array($form['language'], ['en', 'fr', 'de', 'ru', 'es'])) ? $form['language'] : 'en';
+define('LANG', $form['language']);
 
 //
 // build character
@@ -115,6 +114,25 @@ if ($hcut == 0) {
     $char->setSlot(EVisualSlot::HEAD_SLOT, $form['haircut'], $form['haircolor']);
 }
 
+if (is($_SERVER['HTTP_X_REQUESTED_WITH'], '') && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+    header('Content-Type; application/json; charset=utf-8');
+    header('Access-Control-Allow-Origin: *');
+
+    $json = [
+        'result' => 'success',
+        'data' => [
+            'image' => render_3d_url($char),
+        ],
+    ];
+
+    echo json_encode($json, JSON_UNESCAPED_UNICODE);
+
+    die();
+}
+
+header('Content-Type: text/html; charset=utf-8');
+//header('Access-Control-Allow-Origin: *');
+
 //
 // build interface
 //
@@ -140,24 +158,44 @@ $langArray = [
 ];
 $langTable = '<table><tr>';
 $langTable .= '<td>' . __('uigcLanguage.uxt') . '</td>';
-$langTable .= '<td>' . html_select('lang', $langArray, LANG) . '</td>';
+$langTable .= '<td>' . html_select('language', $langArray, LANG) . '</td>';
 $langTable .= '</tr></table>';
 
 
-$tpl = '
-<html>
+$tpl = '<html>
 <head>
     <title>api.bmsite.net - Character Creator</title>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/main.js"></script>
+    <style>
+        #status {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding-top: 200px;
+            width: 300px;
+            height: 400px;/* -padding*/
+            background-color: rgba(0, 0, 0, .5);
+            color: yellowgreen;
+            font-size: 26px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-<form method="POST" action="?">
-<table>
-<tr>
-    <td valign="top">{$image}<br>{$vpx}<br>{$image_opts}</td><td valign="top">{$options}</td>
-</tr>
-</table>
-{$lang}
+<form id="form" method="POST" action="?">
+    <table>
+        <tr>
+            <td valign="top" style="position:relative;">
+                {$image}
+                <br>{$vpx}<br>{$image_opts}
+                <div id="status"></div>
+            </td>
+            <td valign="top">{$options}</td>
+        </tr>
+    </table>
+    {$lang}
 </form>
 
 </body>
@@ -171,7 +209,7 @@ echo strtr(
         '{$vpx}' => $vpx,
         '{$image_opts}' => image_options($char),
         //
-        '{$image}' => '<img src="' . render_3d_url($char) . '" width="300" height="600">',
+        '{$image}' => '<img id="preview" src="' . render_3d_url($char) . '" width="300" height="600">',
         '{$options}' => option_pane($char),
         //
     ]
@@ -513,7 +551,7 @@ function html_select($name, array $options, $selected, $trans = false, $verbose 
             if (substr($txt, 0, 10) == 'NotFound:(') {
                 $txt = _h($v);
             } elseif ($verbose && $txt != $v) {
-                $txt .= ' (' . _h($v) . ')';
+                $txt = '[' . _h($v) . '] '.$txt;
             }
         }
         $ret .= '<option value="' . _h($k) . '"' . ($selected === $k ? ' selected="selected"' : '') . '>' .
