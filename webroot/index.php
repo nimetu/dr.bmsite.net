@@ -25,7 +25,6 @@ function __($sheet, $lang = LANG)
 
 require __DIR__ . '/../vendor/autoload.php';
 
-
 //
 // form
 //
@@ -115,6 +114,23 @@ if ($hcut == 0) {
     $char->setSlot(EVisualSlot::HEAD_SLOT, $form['haircut'], $form['haircolor']);
 }
 
+// override values from user supplied vpx
+if (!empty($_REQUEST['vpa'])) {
+    $is_hex = (is($_REQUEST['vpax'], 'off') === 'on') && substr($_REQUEST['vpa'], 0, 2) !== '0x';
+    $char->setVpa(($is_hex ? '0x' : '') . $_REQUEST['vpa']);
+}
+if (!empty($_REQUEST['vpb'])) {
+    $is_hex = (is($_REQUEST['vpbx'], 'off') === 'on') && substr($_REQUEST['vpb'], 0, 2) !== '0x';
+    $char->setVpb(($is_hex ? '0x' : '') . $_REQUEST['vpb']);
+}
+if (!empty($_REQUEST['vpc'])) {
+    $is_hex = (is($_REQUEST['vpcx'], 'off') === 'on') && substr($_REQUEST['vpc'], 0, 2) !== '0x';
+    $char->setVpc(($is_hex ? '0x' : '') . $_REQUEST['vpc']);
+}
+
+//
+// ajax
+//
 if (is($_SERVER['HTTP_X_REQUESTED_WITH'], '') && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     header('Content-Type; application/json; charset=utf-8');
     header('Access-Control-Allow-Origin: *');
@@ -123,6 +139,9 @@ if (is($_SERVER['HTTP_X_REQUESTED_WITH'], '') && $_SERVER['HTTP_X_REQUESTED_WITH
         'result' => 'success',
         'data' => [
             'image' => render_3d_url($char),
+            'vpa' => $char->getVpa(true),
+            'vpb' => $char->getVpb(true),
+            'vpc' => $char->getVpc(true),
         ],
     ];
 
@@ -137,12 +156,12 @@ header('Content-Type: text/html; charset=utf-8');
 //
 // build interface
 //
-$tpl2 = '<li>{$name}: {$vpx}</li>';
+$tpl2 = '<li>{$name}: <span id="{$id}">{$vpx}</span></li>';
 
 $vpx = '<ul>';
-$vpx .= strtr($tpl2, ['{$name}' => 'VPA', '{$vpx}' => $char->getVpa(true)]);
-$vpx .= strtr($tpl2, ['{$name}' => 'VPB', '{$vpx}' => $char->getVpb(true)]);
-$vpx .= strtr($tpl2, ['{$name}' => 'VPC', '{$vpx}' => $char->getVpc(true)]);
+$vpx .= strtr($tpl2, ['{$name}' => 'VPA', '{$id}' => 'vpa', '{$vpx}' => $char->getVpa(true)]);
+$vpx .= strtr($tpl2, ['{$name}' => 'VPB', '{$id}' => 'vpb', '{$vpx}' => $char->getVpb(true)]);
+$vpx .= strtr($tpl2, ['{$name}' => 'VPC', '{$id}' => 'vpc', '{$vpx}' => $char->getVpc(true)]);
 $vpx .= '</ul>';
 
 //$vp = $char->getVpa(true);
@@ -162,7 +181,6 @@ $langTable .= '<td>' . __('uigcLanguage.uxt') . '</td>';
 $langTable .= '<td>' . html_select('language', $langArray, LANG) . '</td>';
 $langTable .= '</tr></table>';
 
-
 $tpl = '<html>
 <head>
     <title>api.bmsite.net - Character Creator</title>
@@ -175,11 +193,14 @@ $tpl = '<html>
             left: 0;
             padding-top: 200px;
             width: 300px;
-            height: 400px;/* -padding*/
+            height: 400px; /* -padding*/
             background-color: rgba(0, 0, 0, .5);
             color: yellowgreen;
             font-size: 26px;
             text-align: center;
+        }
+        #form2 input[type="text"] {
+            width: 200px;
         }
     </style>
 </head>
@@ -199,6 +220,39 @@ $tpl = '<html>
     {$lang}
 </form>
 
+<h2>Set VPX</h2>
+<form id="form2" method="POST" action="?">
+    <table>
+        <tr>
+            <td valign="top">VPA</td>
+            <td>
+                <input type="text" name="vpa" value="" size="100">
+            </td>
+            <td>
+                <input type="checkbox" name="vpax"> hex
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">VPB</td>
+            <td>
+                <input type="text" name="vpb" value="" size="100">
+            </td>
+            <td>
+                <input type="checkbox" name="vpbx"> hex
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">VPC</td>
+            <td>
+                <input type="text" name="vpc" value="" size="100">
+            </td>
+            <td>
+                <input type="checkbox" name="vpcx"> hex
+            </td>
+        </tr>
+    </table>
+    <input type="submit" name="submit" value="submit">
+</form>
 </body>
 </html>
 ';
@@ -552,10 +606,10 @@ function html_select($name, array $options, $selected, $trans = false, $verbose 
             if (substr($txt, 0, 10) == 'NotFound:(') {
                 $txt = _h($v);
             } elseif ($verbose && $txt != $v) {
-                $txt = '[' . _h($v) . '] '.$txt;
+                $txt = '[' . _h($v) . '] ' . $txt;
             }
         }
-        $ret .= '<option value="' . _h($k) . '"' . ($selected === $k ? ' selected="selected"' : '') . '>' .
+        $ret .= '<option value="' . _h($k) . '"' . ($selected == $k ? ' selected="selected"' : '') . '>' .
             $txt . '</option>';
     }
     $ret .= '</select>';

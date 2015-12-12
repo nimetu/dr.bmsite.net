@@ -28,6 +28,9 @@ $(function () {
                     state = json.data;
 
                     $('#preview').attr('src', state.image);
+                    $('#vpa').html(state.vpa);
+                    $('#vpb').html(state.vpb);
+                    $('#vpc').html(state.vpc);
                 } else {
                     alert(json);
                 }

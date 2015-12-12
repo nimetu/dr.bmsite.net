@@ -99,16 +99,16 @@
         },
         {
             "name": "nimetu/ryzom_sheets",
-            "version": "v1.2.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nimetu/ryzom_sheets.git",
-                "reference": "3a181046d60b6d1b9b2212103d3ebb24688b8408"
+                "reference": "edc20d0e42d3ef3d15a2ad32439436495f2a31d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nimetu/ryzom_sheets/zipball/3a181046d60b6d1b9b2212103d3ebb24688b8408",
-                "reference": "3a181046d60b6d1b9b2212103d3ebb24688b8408",
+                "url": "https://api.github.com/repos/nimetu/ryzom_sheets/zipball/edc20d0e42d3ef3d15a2ad32439436495f2a31d1",
+                "reference": "edc20d0e42d3ef3d15a2ad32439436495f2a31d1",
                 "shasum": ""
             },
             "require": {
@@ -137,7 +137,7 @@
                 "nel",
                 "ryzom"
             ],
-            "time": "2015-06-25 11:00:55"
+            "time": "2015-12-12 16:05:59"
         }
     ],
     "packages-dev": [],
