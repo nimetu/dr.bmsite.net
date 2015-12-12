@@ -334,7 +334,7 @@ function option_pane(\Rrs\Character $char)
     list($tattoo, $eyes) = $char->getSlot(EVisualSlot::FACE_SLOT);
     $html .= strtr(
         $tplRow,
-        ['{$name}' => 'Eye color', '{$value}' => html_radio('eyes', range(0, 7, 1), $eyes)]
+        ['{$name}' => 'Eye color', '{$value}' => html_select('eyes', range(0, 7, 1), $eyes)]
     );
     $html .= strtr(
         $tplRow,
@@ -521,27 +521,6 @@ function html_select($name, array $options, $selected, $trans = false, $verbose 
     }
     $ret .= '</select>';
     //$ret = '['.$selected.']'.$ret;
-    return $ret;
-}
-
-/**
- * @param string     $name
- * @param array      $values
- * @param int|string $selected
- *
- * @return string
- */
-function html_radio($name, $values, $selected)
-{
-    if (!is_array($values)) {
-        $values = array($values);
-    }
-
-    $ret = '';
-    foreach ($values as $v) {
-        $ret .= '<input type="radio" name="' . _h($name) . '" value="' . _h($v) . '"' .
-            ($selected === $v ? ' checked = "checked"' : '') . ' > ';
-    }
     return $ret;
 }
 
