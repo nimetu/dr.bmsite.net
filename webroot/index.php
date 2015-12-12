@@ -1,9 +1,12 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', true);
+if ($_SERVER['HTTP_HOST'] == 'ryapp') {
+    error_reporting(E_ALL);
+    ini_set('display_errors', true);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', false);
+}
 // FIXME: import dressing room (or api) url
-
-// FIXME: get vpc from api? - generate api locally
 
 use Ryzom\Common\EGender;
 use Ryzom\Common\EVisualSlot;
@@ -22,15 +25,13 @@ function __($sheet)
 
 header('Content-Type: text/html; charset=utf-8');
 
-// FIXME: form lang sb
-define('LANG', 'en');
-
-require 'vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 //
 // form
 //
 $form = [
+    'lang' => is($_POST['lang'], 'en'),
     'zoom' => is($_POST['zoom'], 'body'),
     'dir' => (int) is($_POST['dir'], 0),
     //
@@ -74,6 +75,8 @@ $form = [
 if (!in_array($form['zoom'], ['body', 'portrait'])) {
     $form['zoom'] = 'body';
 }
+
+define('LANG', $form['lang']);
 
 //
 // build character
@@ -123,23 +126,43 @@ $vpx .= strtr($tpl2, ['{$name}' => 'VPB', '{$vpx}' => $char->getVpb(true)]);
 $vpx .= strtr($tpl2, ['{$name}' => 'VPC', '{$vpx}' => $char->getVpc(true)]);
 $vpx .= '</ul>';
 
+//************************************************************************************
+$langArray = [
+    'en' => __('uigcEnglish.uxt'),
+    'fr' => __('uigcFrancais.uxt'),
+    'de' => __('uigcDeutch.uxt'),
+    'ru' => __('uigcRussian.uxt'),
+    'es' => __('uigcSpanish.uxt'),
+];
+$langTable = '<table><tr>';
+$langTable .= '<td>' . __('uigcLanguage.uxt') . '</td>';
+$langTable .= '<td>' . html_select('lang', $langArray, LANG) . '</td>';
+$langTable .= '</tr></table>';
+
+
 $tpl = '
+<form method="POST" action="?">
 <table>
 <tr>
-    <td>{$image}</td><td>{$options}</td>
+    <td valign="top">{$lang}</td>
+    <td>{$vpx}</td>
 </tr>
 <tr>
-    <td></td><td>{$vpx}</td>
+    <td valign="top">{$image}</td><td valign="top">{$options}</td>
 </tr>
 </table>
+</form>
 ';
 
 echo strtr(
     $tpl,
     [
+        '{$lang}' => $langTable,
+        '{$vpx}' => $vpx,
+        //
         '{$image}' => '<img src="' . render_3d_url($char) . '" width="300" height="600">',
         '{$options}' => option_pane($char),
-        '{$vpx}' => $vpx,
+        //
     ]
 );
 
@@ -201,6 +224,14 @@ function option_pane(\Rrs\Character $char)
     $tplRow = '<tr><td>{$name}</td><td>{$value}</td>';
     $sep = '<tr><td>---</td><td></td></tr>';
 
+    $btnSubmit = strtr(
+        $tplRow,
+        [
+            '{$name}' => '<input type="submit" name="submit" value="submit">',
+            '{$value}' => ''
+        ]
+    );
+
     $zoomArray = [
         'body' => 'body',
         'portrait' => 'portrait',
@@ -211,10 +242,12 @@ function option_pane(\Rrs\Character $char)
         $zoom = 'body';
     }
 
-    $html = '<form method="post" action="?">';
-    $html .= '<table>';
 
     //************************************************************************************
+    // page 1
+    //************************************************************************************
+    $html = '';
+    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos2.uxt')]);
     $html .= strtr(
         $tplRow,
         ['{$name}' => __('uiR2EdRace.uxt'), '{$value}' => html_select('race', $raceArray, $char->getRace())]
@@ -262,16 +295,11 @@ function option_pane(\Rrs\Character $char)
         $tplRow,
         ['{$name}' => 'Tattoo', '{$value}' => html_select('tattoo', $tattooArray, $tattoo)]
     );
-    $html .= $sep;
+
     //************************************************************************************
-    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos3.uxt')]);
-    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => render_gabarit($char)]);
-    $html .= $sep;
+    // page
     //************************************************************************************
-    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos4.uxt')]);
-    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => render_morph($char)]);
-    $html .= $sep;
-    //************************************************************************************
+    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos2.uxt')]);
     $slots = [
         EVisualSlot::HEAD_SLOT => 'uiHelmet.uxt',
         EVisualSlot::CHEST_SLOT => 'uiTorso.uxt',
@@ -304,7 +332,6 @@ function option_pane(\Rrs\Character $char)
 
         $html .= strtr($tplRow, ['{$name}' => __($txt), '{$value}' => $sb]);
     }
-    $html .= $sep;
     //***********************************************************************************
     list($item) = $char->getSlot(EVisualSlot::RIGHT_HAND_SLOT);
     $items = [0 => '-'] + slot_items($char, EVisualSlot::RIGHT_HAND_SLOT);
@@ -335,11 +362,9 @@ function option_pane(\Rrs\Character $char)
         ]
     );
 
-    $html .= $sep;
-
-    //
+    //************************************************************************************
     // image options
-    //
+    //************************************************************************************
     $angles = [
         0 => '0 (front)',
         45 => 45,
@@ -354,6 +379,7 @@ function option_pane(\Rrs\Character $char)
         $tplRow,
         ['{$name}' => 'Zoom', '{$value}' => html_select('zoom', $zoomArray, $zoom)]
     );
+
     $html .= strtr(
         $tplRow,
         [
@@ -361,11 +387,22 @@ function option_pane(\Rrs\Character $char)
             '{$value}' => html_select('dir', $angles, (int) $char->getDirection())
         ]
     );
-    $html .= '</table>';
 
-    $html .= '<br><input type="submit" name="submit" value="submit">';
-    $html .= '</form>';
-    return $html;
+    $html .= $btnSubmit;
+
+    //************************************************************************************
+    // page
+    //************************************************************************************
+    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos3.uxt')]);
+    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => render_gabarit($char)]);
+    $html .= $sep;
+    //************************************************************************************
+    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos4.uxt')]);
+    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => render_morph($char)]);
+
+    $html .= $btnSubmit;
+
+    return '<table>' . $html . '</table>';
 }
 
 /**
