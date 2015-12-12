@@ -43,7 +43,7 @@ $(function () {
 
     function onchange(e) {
         // for language, reload whole page
-        if ($(e.target).is('select[name=language]')) {
+        if ($(e.target).is('select[name=language]') || $(e.target).is('select[name=race]') || $(e.target).is('select[name=gender]')) {
             do_reload(false);
         } else {
             // submit form with ajax and update image
