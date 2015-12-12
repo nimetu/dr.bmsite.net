@@ -25,11 +25,12 @@ function __($sheet, $lang = LANG)
 
 require __DIR__ . '/../vendor/autoload.php';
 
+
 //
 // form
 //
 $form = [
-    'language' => is($_REQUEST['language'], 'en'),
+    'language' => is($_REQUEST['language'], is($_GET['lang'], 'en')),
     'zoom' => is($_REQUEST['zoom'], 'body'),
     'dir' => (int) is($_REQUEST['dir'], 0),
     //
