@@ -1,0 +1,151 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "091b4c87606037c15682a4370e6f4bea",
+    "content-hash": "64ffd9451e74c9d7dcde09c1d66173a3",
+    "packages": [
+        {
+            "name": "nimetu/rrs_client",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nimetu/rrs_client.git",
+                "reference": "6e5e77022b3562f5074c58888d040fc939ceab4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nimetu/rrs_client/zipball/6e5e77022b3562f5074c58888d040fc939ceab4c",
+                "reference": "6e5e77022b3562f5074c58888d040fc939ceab4c",
+                "shasum": ""
+            },
+            "require": {
+                "nimetu/ryzom_extra": "1.*",
+                "nimetu/ryzom_sheets": "1.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Rrs": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Meelis Mägi",
+                    "email": "nimetu@gmail.com"
+                }
+            ],
+            "description": "Php client for Ryzom rendering service",
+            "homepage": "http://bmsite.net",
+            "keywords": [
+                "ryzom"
+            ],
+            "time": "2015-12-11 22:21:25"
+        },
+        {
+            "name": "nimetu/ryzom_extra",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nimetu/ryzom_extra.git",
+                "reference": "3372f9f0bf9836f52f67c8c1cb4ffa8fb5c5b692"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nimetu/ryzom_extra/zipball/3372f9f0bf9836f52f67c8c1cb4ffa8fb5c5b692",
+                "reference": "3372f9f0bf9836f52f67c8c1cb4ffa8fb5c5b692",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "nimetu/ryzom_sheets": "1.*",
+                "php": ">=5.4.0",
+                "pimple/pimple": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "RyzomExtra": "lib"
+                },
+                "files": [
+                    "ryzom_extra.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Meelis Mägi",
+                    "email": "nimetu@gmail.com"
+                }
+            ],
+            "description": "Functions and data for ryzom sheet files",
+            "homepage": "http://bmsite.net",
+            "keywords": [
+                "ryzom"
+            ],
+            "time": "2014-06-17 10:23:26"
+        },
+        {
+            "name": "nimetu/ryzom_sheets",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nimetu/ryzom_sheets.git",
+                "reference": "3a181046d60b6d1b9b2212103d3ebb24688b8408"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nimetu/ryzom_sheets/zipball/3a181046d60b6d1b9b2212103d3ebb24688b8408",
+                "reference": "3a181046d60b6d1b9b2212103d3ebb24688b8408",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Nel": "lib/",
+                    "Ryzom": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Meelis Mägi",
+                    "email": "nimetu@gmail.com"
+                }
+            ],
+            "description": "Ryzom and Nel specific classes",
+            "homepage": "http://bmsite.net",
+            "keywords": [
+                "nel",
+                "ryzom"
+            ],
+            "time": "2015-06-25 11:00:55"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

@@ -1,0 +1,7 @@
+{
+    "require": {
+        "nimetu/ryzom_extra": "^1.0",
+        "nimetu/ryzom_sheets": "^1.1",
+        "nimetu/rrs_client": "^1.1"
+    }
+}
