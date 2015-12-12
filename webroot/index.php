@@ -18,9 +18,9 @@ if (!function_exists('_h')) {
         return htmlspecialchars($str);
     }
 }
-function __($sheet)
+function __($sheet, $lang = LANG)
 {
-    return _h(ryzom_translate($sheet, LANG));
+    return _h(ryzom_translate($sheet, $lang));
 }
 
 header('Content-Type: text/html; charset=utf-8');
@@ -128,11 +128,11 @@ $vpx .= '</ul>';
 
 //************************************************************************************
 $langArray = [
-    'en' => __('uigcEnglish.uxt'),
-    'fr' => __('uigcFrancais.uxt'),
-    'de' => __('uigcDeutch.uxt'),
-    'ru' => __('uigcRussian.uxt'),
-    'es' => __('uigcSpanish.uxt'),
+    'en' => __('LanguageName.uxt', 'en'),
+    'fr' => __('LanguageName.uxt', 'fr'),
+    'de' => __('LanguageName.uxt', 'de'),
+    'ru' => __('LanguageName.uxt', 'ru'),
+    'es' => __('LanguageName.uxt', 'es'),
 ];
 $langTable = '<table><tr>';
 $langTable .= '<td>' . __('uigcLanguage.uxt') . '</td>';
@@ -144,13 +144,10 @@ $tpl = '
 <form method="POST" action="?">
 <table>
 <tr>
-    <td valign="top">{$lang}</td>
-    <td>{$vpx}</td>
-</tr>
-<tr>
-    <td valign="top">{$image}</td><td valign="top">{$options}</td>
+    <td valign="top">{$image}<br>{$vpx}<br>{$image_opts}</td><td valign="top">{$options}</td>
 </tr>
 </table>
+{$lang}
 </form>
 ';
 
@@ -159,6 +156,7 @@ echo strtr(
     [
         '{$lang}' => $langTable,
         '{$vpx}' => $vpx,
+        '{$image_opts}' => image_options($char),
         //
         '{$image}' => '<img src="' . render_3d_url($char) . '" width="300" height="600">',
         '{$options}' => option_pane($char),
@@ -193,6 +191,51 @@ function render_3d_url(\Rrs\Character $char)
     }
 
     return "http://api.bmsite.net/char/render/3d?race={$race}&dir={$dir}&zoom={$zoom}&vpa={$vpa}&vpb={$vpb}&vpc={$vpc}";
+}
+
+function image_options(\Rrs\Character $char)
+{
+    $tplRow = '<tr><td>{$name}</td><td>{$value}</td>';
+
+    $zoomArray = [
+        'body' => 'body',
+        'portrait' => 'portrait',
+    ];
+    if ($char->isFaceShot()) {
+        $zoom = 'portrait';
+    } else {
+        $zoom = 'body';
+    }
+
+    $html = '';
+
+    //************************************************************************************
+    // image options
+    //************************************************************************************
+    $angles = [
+        0 => '0 (front)',
+        45 => 45,
+        90 => 90,
+        135 => 135,
+        180 => '180 (back)',
+        225 => 225,
+        270 => 270,
+        315 => 315,
+    ];
+    $html .= strtr(
+        $tplRow,
+        ['{$name}' => 'Zoom', '{$value}' => html_select('zoom', $zoomArray, $zoom)]
+    );
+
+    $html .= strtr(
+        $tplRow,
+        [
+            '{$name}' => 'Direction',
+            '{$value}' => html_select('dir', $angles, (int) $char->getDirection())
+        ]
+    );
+
+    return '<table>' . $html . '</table>';
 }
 
 /**
@@ -231,17 +274,6 @@ function option_pane(\Rrs\Character $char)
             '{$value}' => ''
         ]
     );
-
-    $zoomArray = [
-        'body' => 'body',
-        'portrait' => 'portrait',
-    ];
-    if ($char->isFaceShot()) {
-        $zoom = 'portrait';
-    } else {
-        $zoom = 'body';
-    }
-
 
     //************************************************************************************
     // page 1
@@ -362,43 +394,23 @@ function option_pane(\Rrs\Character $char)
         ]
     );
 
-    //************************************************************************************
-    // image options
-    //************************************************************************************
-    $angles = [
-        0 => '0 (front)',
-        45 => 45,
-        90 => 90,
-        135 => 135,
-        180 => '180 (back)',
-        225 => 225,
-        270 => 270,
-        315 => 315,
-    ];
-    $html .= strtr(
-        $tplRow,
-        ['{$name}' => 'Zoom', '{$value}' => html_select('zoom', $zoomArray, $zoom)]
-    );
-
-    $html .= strtr(
-        $tplRow,
-        [
-            '{$name}' => 'Direction',
-            '{$value}' => html_select('dir', $angles, (int) $char->getDirection())
-        ]
-    );
-
     $html .= $btnSubmit;
 
     //************************************************************************************
     // page
     //************************************************************************************
-    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos3.uxt')]);
-    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => render_gabarit($char)]);
-    $html .= $sep;
+    $tmp = '<table>';
+    $tmp .= '<tr><td>' . __('uiAppear_Infos3.uxt') . '</td><td>' . __('uiAppear_Infos4.uxt') . '</td></tr>';
+    $tmp .= '<tr><td valign="top">' . render_gabarit($char) . '</td><td valign="top">' . render_morph(
+            $char
+        ) . '</td></tr>';
+    $tmp .= '</table>';
+    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => $tmp]);
+    //$html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos3.uxt')]);
+    //$html .= strtr($tplRow, ['{$name}' => '', '{$value}' => render_gabarit($char)]);
     //************************************************************************************
-    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos4.uxt')]);
-    $html .= strtr($tplRow, ['{$name}' => '', '{$value}' => render_morph($char)]);
+    //$html .= strtr($tplRow, ['{$name}' => '', '{$value}' => __('uiAppear_Infos4.uxt')]);
+    //$html .= strtr($tplRow, ['{$name}' => '', '{$value}' => render_morph($char)]);
 
     $html .= $btnSubmit;
 
@@ -418,23 +430,23 @@ function render_gabarit(\Rrs\Character $char)
     $html .= '<table>';
     $html .= strtr(
         $tplRow,
-        ['{$name}' => __('uiHeight.uxt'), '{$value}' => html_radio('gabarit[0]', range(0, 14, 1), $gabarit[0])]
+        ['{$name}' => __('uiHeight.uxt'), '{$value}' => html_select('gabarit[0]', range(0, 14, 1), $gabarit[0])]
     );
     $html .= strtr(
         $tplRow,
-        ['{$name}' => __('uiTorso.uxt'), '{$value}' => html_radio('gabarit[1]', range(0, 14, 1), $gabarit[1])]
+        ['{$name}' => __('uiTorso.uxt'), '{$value}' => html_select('gabarit[1]', range(0, 14, 1), $gabarit[1])]
     );
     $html .= strtr(
         $tplRow,
-        ['{$name}' => __('uiArms.uxt'), '{$value}' => html_radio('gabarit[2]', range(0, 14, 1), $gabarit[2])]
+        ['{$name}' => __('uiArms.uxt'), '{$value}' => html_select('gabarit[2]', range(0, 14, 1), $gabarit[2])]
     );
     $html .= strtr(
         $tplRow,
-        ['{$name}' => __('uiLegs.uxt'), '{$value}' => html_radio('gabarit[3]', range(0, 14, 1), $gabarit[3])]
+        ['{$name}' => __('uiLegs.uxt'), '{$value}' => html_select('gabarit[3]', range(0, 14, 1), $gabarit[3])]
     );
     $html .= strtr(
         $tplRow,
-        ['{$name}' => __('uiBreasts.uxt'), '{$value}' => html_radio('gabarit[4]', range(0, 14, 1), $gabarit[4])]
+        ['{$name}' => __('uiBreasts.uxt'), '{$value}' => html_select('gabarit[4]', range(0, 14, 1), $gabarit[4])]
     );
     $html .= '</table>';
     return $html;
@@ -459,7 +471,7 @@ function render_morph(\Rrs\Character $char)
             $tplRow,
             [
                 '{$name}' => __(sprintf($uiMorph, $i + 1)),
-                '{$value}' => html_radio("morph[{$i}]", range(0, 7, 1), $morph[$i])
+                '{$value}' => html_select("morph[{$i}]", range(0, 7, 1), $morph[$i])
             ]
         );
     }
@@ -481,7 +493,7 @@ function html_select($name, array $options, $selected, $trans = false, $verbose 
 {
     $ret = '<select name="' . $name . '">';
     foreach ($options as $k => $v) {
-        if ($v == '-') {
+        if ($v === '-') {
             $txt = '-';
         } else {
             $txt = ($trans ? __($v) : _h($v));
