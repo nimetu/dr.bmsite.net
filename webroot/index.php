@@ -139,9 +139,9 @@ if (is($_SERVER['HTTP_X_REQUESTED_WITH'], '') && $_SERVER['HTTP_X_REQUESTED_WITH
         'result' => 'success',
         'data' => [
             'image' => render_3d_url($char),
-            'vpa' => $char->getVpa(true),
-            'vpb' => $char->getVpb(true),
-            'vpc' => $char->getVpc(true),
+            'vpa' => '<br>(hex) '.strtoupper($char->getVpa(true)) . '<br>(dec) '.$char->getVpa(),
+            'vpb' => '<br>(hex) '.strtoupper($char->getVpb(true)) . '<br>(dec) '.$char->getVpb(),
+            'vpc' => '<br>(hex) '.strtoupper($char->getVpc(true)) . '<br>(dec) '.$char->getVpc(),
         ],
     ];
 
@@ -159,9 +159,9 @@ header('Content-Type: text/html; charset=utf-8');
 $tpl2 = '<li>{$name}: <span id="{$id}">{$vpx}</span></li>';
 
 $vpx = '<ul>';
-$vpx .= strtr($tpl2, ['{$name}' => 'VPA', '{$id}' => 'vpa', '{$vpx}' => $char->getVpa(true)]);
-$vpx .= strtr($tpl2, ['{$name}' => 'VPB', '{$id}' => 'vpb', '{$vpx}' => $char->getVpb(true)]);
-$vpx .= strtr($tpl2, ['{$name}' => 'VPC', '{$id}' => 'vpc', '{$vpx}' => $char->getVpc(true)]);
+$vpx .= strtr($tpl2, ['{$name}' => 'VPA', '{$id}' => 'vpa', '{$vpx}' => '<br>(hex) '.strtoupper($char->getVpa(true)) . '<br>(dec) '.$char->getVpa()]);
+$vpx .= strtr($tpl2, ['{$name}' => 'VPB', '{$id}' => 'vpb', '{$vpx}' => '<br>(hex) '.strtoupper($char->getVpb(true)) . '<br>(dec) '.$char->getVpb()]);
+$vpx .= strtr($tpl2, ['{$name}' => 'VPC', '{$id}' => 'vpc', '{$vpx}' => '<br>(hex) '.strtoupper($char->getVpc(true)) . '<br>(dec) '.$char->getVpc()]);
 $vpx .= '</ul>';
 
 //$vp = $char->getVpa(true);
