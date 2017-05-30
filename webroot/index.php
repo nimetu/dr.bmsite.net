@@ -214,9 +214,13 @@ $tpl = '<html>
     </style>
 </head>
 <body>
-<table width="100%">
-<tr><td align="left">{$title}</td><td align="right"><a href="?src=show">source</a></td></tr>
-</table>
+
+<a href="https://github.com/nimetu/dr.bmsite.net">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" src="images/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+</a>
+
+{$title} <small>(<a href="?src=show">source</a>)</small>
+
 <hr>
 
 <form id="form" method="POST" action="?">
