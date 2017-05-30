@@ -192,7 +192,7 @@ $langTable .= '</tr></table>';
 
 $tpl = '<html>
 <head>
-    <title>api.bmsite.net - Character Creator</title>
+    <title>{$title}</title>
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/main.js"></script>
     <style>
@@ -214,6 +214,10 @@ $tpl = '<html>
     </style>
 </head>
 <body>
+<table width="100%">
+<tr><td align="left">{$title}</td><td align="right"><a href="?src=show">source</a></td></tr>
+</table>
+<hr>
 
 <form id="form" method="POST" action="?">
     <table>
@@ -269,6 +273,7 @@ $tpl = '<html>
 echo strtr(
     $tpl,
     [
+	'{$title}' => 'api.bmsite.net - Character Creator',
         '{$lang}' => $langTable,
         '{$vpx}' => $vpx,
         '{$image_opts}' => image_options($char),
