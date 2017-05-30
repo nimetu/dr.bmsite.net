@@ -51,16 +51,16 @@
         },
         {
             "name": "nimetu/ryzom_extra",
-            "version": "v1.0.2",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nimetu/ryzom_extra.git",
-                "reference": "3372f9f0bf9836f52f67c8c1cb4ffa8fb5c5b692"
+                "reference": "90ab914c5d4669d4443f7b4428a2efc3b94b1859"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nimetu/ryzom_extra/zipball/3372f9f0bf9836f52f67c8c1cb4ffa8fb5c5b692",
-                "reference": "3372f9f0bf9836f52f67c8c1cb4ffa8fb5c5b692",
+                "url": "https://api.github.com/repos/nimetu/ryzom_extra/zipball/90ab914c5d4669d4443f7b4428a2efc3b94b1859",
+                "reference": "90ab914c5d4669d4443f7b4428a2efc3b94b1859",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
             "keywords": [
                 "ryzom"
             ],
-            "time": "2014-06-17 10:23:26"
+            "time": "2016-02-03 20:13:25"
         },
         {
             "name": "nimetu/ryzom_sheets",
