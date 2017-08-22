@@ -314,7 +314,7 @@ function render_3d_url(\Rrs\Character $char)
         $zoom = 'body';
     }
 
-    return "http://api.bmsite.net/char/render/3d?race={$race}&dir={$dir}&zoom={$zoom}&vpa={$vpa}&vpb={$vpb}&vpc={$vpc}";
+    return "https://api.bmsite.net/char/render/3d?race={$race}&dir={$dir}&zoom={$zoom}&vpa={$vpa}&vpb={$vpb}&vpc={$vpc}";
 }
 
 function image_options(\Rrs\Character $char)
