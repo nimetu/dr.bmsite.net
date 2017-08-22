@@ -141,7 +141,7 @@ if (!empty($_REQUEST['vpc'])) {
 // ajax
 //
 if (is($_SERVER['HTTP_X_REQUESTED_WITH'], '') && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-    header('Content-Type; application/json; charset=utf-8');
+    header('Content-Type: application/json; charset=utf-8');
     header('Access-Control-Allow-Origin: *');
 
     $json = [
