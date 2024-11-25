@@ -1,10 +1,9 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "091b4c87606037c15682a4370e6f4bea",
     "content-hash": "64ffd9451e74c9d7dcde09c1d66173a3",
     "packages": [
         {
@@ -47,20 +46,24 @@
             "keywords": [
                 "ryzom"
             ],
-            "time": "2015-12-11 22:21:25"
+            "support": {
+                "issues": "https://github.com/nimetu/rrs_client/issues",
+                "source": "https://github.com/nimetu/rrs_client/tree/v1.2.0"
+            },
+            "time": "2015-12-11T22:21:25+00:00"
         },
         {
             "name": "nimetu/ryzom_extra",
-            "version": "v1.2.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nimetu/ryzom_extra.git",
-                "reference": "90ab914c5d4669d4443f7b4428a2efc3b94b1859"
+                "reference": "47c3fbba3a0f2c8c0cc4d9baac620976ac7c5bf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nimetu/ryzom_extra/zipball/90ab914c5d4669d4443f7b4428a2efc3b94b1859",
-                "reference": "90ab914c5d4669d4443f7b4428a2efc3b94b1859",
+                "url": "https://api.github.com/repos/nimetu/ryzom_extra/zipball/47c3fbba3a0f2c8c0cc4d9baac620976ac7c5bf8",
+                "reference": "47c3fbba3a0f2c8c0cc4d9baac620976ac7c5bf8",
                 "shasum": ""
             },
             "require": {
@@ -68,21 +71,21 @@
             },
             "require-dev": {
                 "nimetu/ryzom_sheets": "1.*",
-                "php": ">=5.4.0",
-                "pimple/pimple": "1.*"
+                "php": ">=7.2.5",
+                "pimple/pimple": "3.*"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "RyzomExtra": "lib"
-                },
                 "files": [
                     "ryzom_extra.php"
-                ]
+                ],
+                "psr-0": {
+                    "RyzomExtra": "lib"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "LGPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -95,20 +98,24 @@
             "keywords": [
                 "ryzom"
             ],
-            "time": "2016-02-03 20:13:25"
+            "support": {
+                "issues": "https://github.com/nimetu/ryzom_extra/issues",
+                "source": "https://github.com/nimetu/ryzom_extra/tree/v1.17.0"
+            },
+            "time": "2024-11-08T12:37:04+00:00"
         },
         {
             "name": "nimetu/ryzom_sheets",
-            "version": "v1.3.1",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nimetu/ryzom_sheets.git",
-                "reference": "edc20d0e42d3ef3d15a2ad32439436495f2a31d1"
+                "reference": "e31eb8da9c2b99f1d0713068ef734d151dda6e16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nimetu/ryzom_sheets/zipball/edc20d0e42d3ef3d15a2ad32439436495f2a31d1",
-                "reference": "edc20d0e42d3ef3d15a2ad32439436495f2a31d1",
+                "url": "https://api.github.com/repos/nimetu/ryzom_sheets/zipball/e31eb8da9c2b99f1d0713068ef734d151dda6e16",
+                "reference": "e31eb8da9c2b99f1d0713068ef734d151dda6e16",
                 "shasum": ""
             },
             "require": {
@@ -123,7 +130,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "LGPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -137,7 +144,11 @@
                 "nel",
                 "ryzom"
             ],
-            "time": "2015-12-12 16:05:59"
+            "support": {
+                "issues": "https://github.com/nimetu/ryzom_sheets/issues",
+                "source": "https://github.com/nimetu/ryzom_sheets/tree/v1.8.0"
+            },
+            "time": "2024-07-07T09:36:05+00:00"
         }
     ],
     "packages-dev": [],
@@ -147,5 +158,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
 }
